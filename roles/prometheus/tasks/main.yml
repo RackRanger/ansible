@@ -1,0 +1,21 @@
+- copy: src=prometheus.yml dest=/data/prometheus.yml
+  register: config
+
+- community.docker.docker_compose_v2:
+    project_name: prometheus
+    state: "{{ 'restarted' if config.changed else 'present' }}"
+    definition:
+      services:
+        prometheus:
+          image: prom/prometheus:latest
+          ports:
+            - 9090:9090
+          volumes:
+            - /data/prometheus.yml:/etc/prometheus/prometheus.yml
+            - data:/prometheus
+      volumes:
+        data:
+  register: output
+
+- ansible.builtin.debug:
+    var: output

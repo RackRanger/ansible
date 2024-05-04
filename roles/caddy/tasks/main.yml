@@ -15,8 +15,9 @@
               - /data/Caddyfile:/etc/caddy/Caddyfile:ro
               - caddy_data:/data
               - caddy_config:/config
-            extra_hosts: 
-              - "host.docker.internal:host-gateway"
+            # not needed, we can use ZeroTier IPs for everything
+            # hosts:
+            #   host.docker.internal: host-gateway
       volumes:
         caddy_data:
         caddy_config:

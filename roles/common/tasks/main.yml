@@ -1,7 +1,9 @@
 ---
 - blockinfile:
     path: /etc/hosts
-    block: "172.26.61.176 thonkpad"
+    block: |
+      172.26.61.176 thonkpad
+      172.26.96.29  oracle
 
 - file:
     path: /data/

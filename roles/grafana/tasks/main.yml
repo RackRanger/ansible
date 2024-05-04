@@ -7,12 +7,11 @@
             environment:
               GF_SERVER_ROOT_URL: https://hackupc.co/grafana
               GF_SERVER_SERVE_FROM_SUBPATH: "true"
+              GF_SECURITY_ALLOW_EMBEDDING: "true"
             ports:
               - 8080:3000
             volumes:
               - data:/var/lib/grafana
-            extra_hosts: 
-              - "host.docker.internal:host-gateway"
       volumes:
         data:
   register: output

@@ -9,5 +9,6 @@
 - hosts: site
   become: true
   roles:
+    - { role: common, tags: common }
     - { role: prometheus, tags: prometheus }
 
