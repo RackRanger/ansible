@@ -1,0 +1,26 @@
+- copy: src=Caddyfile dest=/data/Caddyfile
+  register: caddyfile
+
+- community.docker.docker_compose_v2:
+    project_name: caddy
+    state: "{{ 'restarted' if caddyfile.changed else 'present' }}"
+    definition:
+      services:
+          caddy:
+            image: caddy:latest
+            ports:
+              - 80:80  # Needed for the ACME HTTP-01 challenge.
+              - 443:443
+            volumes:
+              - /data/Caddyfile:/etc/caddy/Caddyfile:ro
+              - caddy_data:/data
+              - caddy_config:/config
+            extra_hosts: 
+              - "host.docker.internal:host-gateway"
+      volumes:
+        caddy_data:
+        caddy_config:
+  register: output
+
+- ansible.builtin.debug:
+    var: output

@@ -1,0 +1,34 @@
+- community.docker.docker_compose_v2:
+    project_name: hedgedoc
+    definition:
+      services:
+        database:
+          image: postgres:latest
+          environment:
+            - POSTGRES_USER=hedgedoc
+            - POSTGRES_PASSWORD=password
+            - POSTGRES_DB=hedgedoc
+          volumes:
+            - database:/var/lib/postgresql/data
+          restart: always
+        hedgedoc:
+          # Make sure to use the latest release from https://hedgedoc.org/latest-release
+          image: quay.io/hedgedoc/hedgedoc:1.9.9
+          environment:
+            - CMD_DB_URL=postgres://hedgedoc:password@database:5432/hedgedoc
+            - CMD_DOMAIN=notes.miikat.dev
+            - CMD_URL_ADDPORT=false
+            - CMD_PROTOCOL_USESSL=true
+          volumes:
+            - uploads:/hedgedoc/public/uploads
+          ports:
+            - "3000:3000"
+          depends_on:
+            - database
+      volumes:
+        database:
+        uploads:
+  register: output
+
+- ansible.builtin.debug:
+    var: output

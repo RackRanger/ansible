@@ -1,0 +1,13 @@
+- hosts: vps
+  become: true
+  roles:
+    - { role: common, tags: common }
+    - { role: caddy, tags: caddy }
+    - { role: hedgedoc, tags: hedgedoc }
+    - { role: grafana, tags: grafana }
+
+- hosts: site
+  become: true
+  roles:
+    - { role: prometheus, tags: prometheus }
+

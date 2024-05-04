@@ -1,0 +1,18 @@
+---
+- blockinfile:
+    path: /etc/hosts
+    block: "172.26.61.176 thonkpad"
+
+- file:
+    path: /data/
+    state: directory
+    recurse: no
+    owner: root
+    group: root
+    mode: u=rwX,g=,o=
+
+- include_role:
+    name: geerlingguy.docker
+  vars:
+    docker_users:
+      - "{{ ansible_user }}"
