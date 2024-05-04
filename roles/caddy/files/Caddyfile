@@ -9,5 +9,5 @@ hackupc.co {
   handle_path /grafana {
     reverse_proxy oracle:8080
   }
-  reverse_proxy thonkpad:3000
+  reverse_proxy oracle:8888
 }

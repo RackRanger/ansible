@@ -7,6 +7,11 @@
     - { role: grafana, tags: grafana }
     - { role: node_exporter, tags: node_exporter }
     - { role: prometheus, tags: prometheus, prometheus_config: "prometheus-vps.yml" }
+    - role: geerlingguy.nodejs
+      tags: nodejs
+      vars:
+        nodejs_version: "20.x"
+    - { role: website, tags: website }
 
 - hosts: site
   become: true

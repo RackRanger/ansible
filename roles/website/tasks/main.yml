@@ -1,0 +1,37 @@
+- git:
+    repo: https://github.com/group4-hackupc/landing-page
+    dest: /data/website
+  register: repo
+
+- stat: path=/data/website/my-app/node_modules
+  register: node_modules_dir
+
+- stat: path=/data/website/my-app/build
+  register: build_dir
+
+- community.general.npm:
+    path: /data/website/my-app
+  when: repo.changed or not node_modules_dir.stat.exists
+
+- command: npm run build chdir=/data/website/my-app
+  when: repo.changed or not build_dir.stat.exists
+
+- community.docker.docker_compose_v2:
+    project_name: website
+    state: "{{ 'restarted' if repo.changed else 'present' }}"
+    definition:
+      services:
+          website:
+            image: node:20
+            ports:
+              - 8888:8888
+            environment:
+              PORT: 8888
+            volumes:
+              - /data/website/my-app:/app
+            command: node /app/build
+  register: output
+
+- ansible.builtin.debug:
+    var: output
+
