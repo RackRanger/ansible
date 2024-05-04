@@ -5,10 +5,13 @@
     - { role: caddy, tags: caddy }
     - { role: hedgedoc, tags: hedgedoc }
     - { role: grafana, tags: grafana }
+    - { role: node_exporter, tags: node_exporter }
+    - { role: prometheus, tags: prometheus, prometheus_config: "prometheus-vps.yml" }
 
 - hosts: site
   become: true
   roles:
     - { role: common, tags: common }
-    - { role: prometheus, tags: prometheus }
+    - { role: prometheus, tags: prometheus, prometheus_config: "prometheus-site.yml" }
+    - { role: node_exporter, tags: node_exporter }
 

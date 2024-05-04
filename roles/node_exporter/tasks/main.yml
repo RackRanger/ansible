@@ -1,0 +1,10 @@
+- dnf: name=node-exporter
+  when: ansible_pkg_mgr == 'dnf'
+
+- apt: name=prometheus-node-exporter
+  when: ansible_pkg_mgr == 'apt'
+
+- systemd_service:
+    name: prometheus-node-exporter
+    state: started
+    enabled: true

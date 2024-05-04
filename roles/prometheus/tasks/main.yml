@@ -1,4 +1,6 @@
-- copy: src=prometheus.yml dest=/data/prometheus.yml
+- copy: 
+    src: "{{ prometheus_config }}" 
+    dest: /data/prometheus.yml
   register: config
 
 - community.docker.docker_compose_v2:
