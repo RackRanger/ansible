@@ -10,10 +10,6 @@ post {
   auth: none
 }
 
-headers {
-  Content-type: application/json
-}
-
 body:json {
   {
     "streams": [
@@ -28,4 +24,8 @@ body:json {
       }
     ]
   }
+}
+
+script:pre-request {
+  bru.setVar("ts",new Date().toISOString())
 }
