@@ -1,0 +1,22 @@
+- copy: src=loki.yml dest=/data/loki.yml
+  register: config
+
+- community.docker.docker_compose_v2:
+    project_name: loki
+    state: "{{ 'restarted' if config.changed else 'present' }}"
+    definition:
+      services:
+          loki:
+            image: grafana/loki:2.9.4
+            command: -config.file=/etc/loki.yml
+            ports:
+              - 3100:3100
+            volumes:
+              - /data/loki.yml:/etc/loki.yml
+              - data:/loki
+      volumes:
+        data:
+  register: output
+
+- ansible.builtin.debug:
+    var: output

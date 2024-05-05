@@ -11,3 +11,7 @@ hackupc.co {
   }
   reverse_proxy oracle:8888
 }
+
+isthecafeteriaopento.us {
+	respond "no"
+}
